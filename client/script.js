@@ -18,8 +18,8 @@ function isTask() {
   }
   return false;
 }
-name = window.prompt("Geben Sie Ihren Namen ein:");
-//task = window.prompt("Task: " + "(" + taskNames[0]+","+taskNames[1] + " oder " + taskNames[2]+ ")");
+name = window.prompt("Geben Sie Ihre E-Mail-Adresse ein:");
+
 task = taskNames[3];
 function loader(element) {
   element.textContent = '';
@@ -121,54 +121,34 @@ const handleSubmit = async (e) => {
 
   pCount++;
 }
-function abcdjb() {
-  const date = new Date();
-  return " " + date.getHours() + date.getFullYear() + date.getMonth() + date.getDay();
 
-}
-function sub(e) {
-  console.log(name);
-  if (name.trim() != "") {
-    handleSubmit(e);
-  }
-  else {
-    name = window.prompt("Geben Sie Ihren Namen ein:");
-  }
-}
+
 form.addEventListener('submit', (e) => {
-  if (name.trim() != "" && taskNames.includes(task)) {
+  if (name.trim() != "" ) {
     handleSubmit(e);
   }
-  else {
     if (name.trim() == "") {
-      name = window.prompt("Geben Sie Ihren Namen ein:");
+      name = window.prompt("Geben Sie Ihre E-Mail-Adresse ein:");
     }
-    if (!taskNames.includes(task)) {
-      task = window.prompt("Task: " + taskNames);
-    }
-  }
-});
+  });
 form.addEventListener('keyup', (e) => {
   if (e.keyCode === 13) {
-    if (name.trim() != "" && taskNames.includes(task)) {
+    if (name.trim() != "" ) {
 
       handleSubmit(e);
     }
-    else {
       if (name.trim() == "") {
-        name = window.prompt("Geben Sie Ihren Namen ein:");
+        name = window.prompt("Geben Sie Ihre E-Mail-Adresse ein:");
       }
-      if (taskNames.includes(task)) {
-        task = window.prompt("Task: " + taskNames);
-      }
+    
     }
   }
 
-});
+);
 
 const click = function () {
   if (pCount >= 6) {
-    alert("314959");
+    alert("");
   }
   else {
     alert("Mindestens 6 prompts!");

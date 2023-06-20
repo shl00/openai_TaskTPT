@@ -15,24 +15,7 @@ var name = "";
 var task = "";
 dotenv.config();
 
-function getPrompt(string) {
-    let i = 0;
-    let n = "";
-    for (let k = 0; k < string.length; k++) {
-        if (string.charAt(k) != " ") {
-            n += string.charAt(k);
-            i++;
-        }
 
-    }
-    name = n;
-    i++;
-    let p = "";
-    for (let h = i; h <= string.length; h++) {
-        p += string.charAt(h);
-    }
-    return p;
-}
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
 });
@@ -84,7 +67,7 @@ app.post('/', async (req, res) => {
             }
         });
         console.log("Verbunden");
-        //const data = await response.json();
+
         const obj = completion.data.choices[0].message;
         const parsedData   = obj.content.trim();
         let sql = "INSERT INTO Prompt VALUES('" + req.body.prompt + "','" + parsedData + "','" + name + "','" + task + "');";
@@ -97,23 +80,7 @@ app.post('/', async (req, res) => {
             // >> output: 2018-08-23T14:02:57.117Z
             client.end();
         });
-        /*var client = new pg.Client(conString)
-        client.connect(function (err) {
-            if (err) {
-                return console.error('could not connect to postgres', err);
-            }
-        });
-        console.log("Verbunden!")
-        let sql = "INSERT INTO Prompt VALUES('"+req.body.prompt+"','"+response.data.choices[0].text+"','"+name+"','" +task+"');";
-        client.query(sql, function(err, result) {
-            if(err) {
-              return console.error('error running query', err);
-            }
-            else{
-                console.log(result.rows);
-            }
-            client.end();
-          });*/
+    
     } catch (error) {
         console.log(error);
         res.status(500).send({ error });

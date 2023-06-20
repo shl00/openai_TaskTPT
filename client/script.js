@@ -10,14 +10,18 @@ var name = "";
 var task = "";
 const taskNames = ["TaskMoralDilemma", "TaskHealthChat", "TaskSQL", "TaskTPT"];
 
-function isTask() {
-  for (let i = 0; i < taskNames.length; i++) {
-    if (task.trim() === taskNames[i]) {
-      return true
-    }
+function isValid(input){
+  const regEx =   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const string = input.toLowerCase();
+  if(string.match(regEx)){
+    return true;
   }
-  return false;
+  else{
+    alert("Keine gültige  E-Mail-Adresse!")
+    return false;
+  }
 }
+
 name = window.prompt("Geben Sie Ihre E-Mail-Adresse ein:");
 
 task = taskNames[3];
@@ -124,20 +128,20 @@ const handleSubmit = async (e) => {
 
 
 form.addEventListener('submit', (e) => {
-  if (name.trim() != "" ) {
+  if (name.trim() != "" && isValid(name)) {
     handleSubmit(e);
   }
-    if (name.trim() == "") {
+    else {
       name = window.prompt("Geben Sie Ihre E-Mail-Adresse ein:");
     }
   });
 form.addEventListener('keyup', (e) => {
   if (e.keyCode === 13) {
-    if (name.trim() != "" ) {
+    if (name.trim() != "" && isValid(name) ) {
 
       handleSubmit(e);
     }
-      if (name.trim() == "") {
+      else{
         name = window.prompt("Geben Sie Ihre E-Mail-Adresse ein:");
       }
     

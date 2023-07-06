@@ -34,7 +34,7 @@ app.get('/', async (req, res) => {
 
 app.post('/', async (req, res) => {
     try {
-        const prompt = req.body.prompt;
+        const prompt = JSON.parse(req.body.prompt);
         name = req.body.na;
         task = req.body.ta
         /*const response = await openai.createCompletion({
@@ -49,12 +49,7 @@ app.post('/', async (req, res) => {
         });*/
         const completion = await openai.createChatCompletion({
             model: 'gpt-3.5-turbo',
-            messages: [
-                {
-                    role: 'user',
-                    content: `${prompt}`
-                },
-            ]
+            messages: prompt
         })
         res.status(200).send({
             //bot: response.data.choices[0].text

@@ -8,15 +8,16 @@ let pCount = 0;
 let loadInterval;
 var name = "";
 var task = "";
-const taskNames = ["TaskMoralDilemma", "TaskHealthChat", "TaskSQL", "TaskTPT"];
 
-function isValid(input){
-  const regEx =   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const taskNames = ["TaskMoralDilemma", "TaskHealthChat", "TaskSQL", "TaskTPT"];
+var history = [];
+function isValid(input) {
+  const regEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const string = input.toLowerCase();
-  if(string.match(regEx)){
+  if (string.match(regEx)) {
     return true;
   }
-  else{
+  else {
     alert("Keine gültige  E-Mail-Adresse!")
     return false;
   }
@@ -24,7 +25,7 @@ function isValid(input){
 
 name = window.prompt("Geben Sie Ihre E-Mail-Adresse ein:");
 
-task = taskNames[3];
+task = taskNames[0];
 function loader(element) {
   element.textContent = '';
 
@@ -76,6 +77,7 @@ function chatStripe(isAi, value, uniqueId) {
 }
 
 const handleSubmit = async (e) => {
+
   e.preventDefault();
 
   const data = new FormData(form);
@@ -94,27 +96,32 @@ const handleSubmit = async (e) => {
 
   loader(messageDiv);
   const input = name + " " + data.get('promt');
+
+  history.push({ role: 'user', content: data.get('promt').trim() });
+
   //https://chatbot-pbxf.onrender.com
-  const response = await fetch('https://chatbot-tpt.onrender.com', {
+  const response = await fetch('https://chatbot-moraldilemma.onrender.com', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      prompt: data.get('promt'),
+      h: history,
       na: name,
       ta: taskNames[3],
     })
 
-  })
+  });
+
   clearInterval(loadInterval);
   messageDiv.innerHTML = '';
   if (response.ok) {
     const data = await response.json();
-    console.log(data.bot)
+    console.log(data.bot.test)
     const parsedData = data.bot.content.trim();
     awnsers[pCount] = parsedData;
     typeText(messageDiv, parsedData);
+    history.push({ role: 'assistant', content: parsedData })
   } else {
     const err = await response.text();
 
@@ -131,28 +138,28 @@ form.addEventListener('submit', (e) => {
   if (name.trim() != "" && isValid(name)) {
     handleSubmit(e);
   }
-    else {
-      name = window.prompt("Geben Sie Ihre E-Mail-Adresse ein:");
-    }
-  });
+  else {
+    name = window.prompt("Geben Sie Ihre E-Mail-Adresse ein:");
+  }
+});
 form.addEventListener('keyup', (e) => {
   if (e.keyCode === 13) {
-    if (name.trim() != "" && isValid(name) ) {
+    if (name.trim() != "" && isValid(name)) {
 
       handleSubmit(e);
     }
-      else{
-        name = window.prompt("Geben Sie Ihre E-Mail-Adresse ein:");
-      }
-    
+    else {
+      name = window.prompt("Geben Sie Ihre E-Mail-Adresse ein:");
     }
+
   }
+}
 
 );
 
 const click = function () {
   if (pCount >= 6) {
-    alert("314959");
+    alert("433717");
   }
   else {
     alert("Mindestens 6 prompts!");
